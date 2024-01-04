@@ -46,7 +46,6 @@ public class DaftarForm extends javax.swing.JFrame {
         LabelLogin = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1400, 800));
         setResizable(false);
 
         PanelUtamaDaftar.setPreferredSize(new java.awt.Dimension(1400, 800));
@@ -56,7 +55,7 @@ public class DaftarForm extends javax.swing.JFrame {
         PanelKiriDaftar.setMinimumSize(new java.awt.Dimension(700, 800));
         PanelKiriDaftar.setPreferredSize(new java.awt.Dimension(700, 800));
 
-        LabelLogoDaftar.setIcon(new javax.swing.ImageIcon("D:\\Kuli\\s3\\pbo\\novelist_app\\novelist_app\\src\\main\\java\\com\\alvan\\novelist_app\\AssetGambar\\Novelist-logos_white 1.png")); // NOI18N
+        LabelLogoDaftar.setIcon(new javax.swing.ImageIcon("D:\\Kuli\\s3\\pbo\\novelist_app\\src\\main\\java\\com\\alvan\\novelist_app\\AssetGambar\\Novelist-logos_white 1.png")); // NOI18N
 
         javax.swing.GroupLayout PanelKiriDaftarLayout = new javax.swing.GroupLayout(PanelKiriDaftar);
         PanelKiriDaftar.setLayout(PanelKiriDaftarLayout);
