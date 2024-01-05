@@ -4,6 +4,8 @@
  */
 package com.alvan.novelist_app.UserInterfaceList;
 
+import com.alvan.novelist_app.Database.SessionLogin;
+
 import java.awt.Dimension;
 
 /**
@@ -12,6 +14,11 @@ import java.awt.Dimension;
  */
 public class DashboardPage extends javax.swing.JFrame {
 
+
+    String nama_user = SessionLogin.getUid();
+    Boolean status_login = SessionLogin.getStatusLogin();
+
+
     /**
      * Creates new form DashboardPage
      */
@@ -19,6 +26,13 @@ public class DashboardPage extends javax.swing.JFrame {
         initComponents();
         setSize(new Dimension(1400, 800));
 
+        if (status_login == true && nama_user != null) {
+            LblNamaUser.setText(nama_user);
+            BtnLoginNav.setText("Keluar");
+        } else {
+            LblNamaUser.setText("Username");
+            BtnLoginNav.setText("Masuk");
+        }
     }
 
     /**
@@ -47,7 +61,6 @@ public class DashboardPage extends javax.swing.JFrame {
         PanelDashMain = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1400, 800));
         setResizable(false);
 
         PanelDashboard.setPreferredSize(new java.awt.Dimension(1400, 800));
@@ -134,7 +147,7 @@ public class DashboardPage extends javax.swing.JFrame {
         BtnLoginNav.setBackground(new java.awt.Color(125, 85, 31));
         BtnLoginNav.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         BtnLoginNav.setForeground(new java.awt.Color(255, 255, 255));
-        BtnLoginNav.setText("Login");
+        BtnLoginNav.setText("Masuk");
 
         javax.swing.GroupLayout PanelNavLayout = new javax.swing.GroupLayout(PanelNav);
         PanelNav.setLayout(PanelNavLayout);

@@ -19,9 +19,9 @@ public class KoneksiDatabase {
     private static final String USER = "root";
     private static final String PASSWORD = "";
 
-    public static Connection getConnection() {
-        try (Connection Connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            return Connection;
+      public static Connection getConnection() {
+        try {
+            return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Koneksi ke database gagal!!", "Message Box", JOptionPane.INFORMATION_MESSAGE);
             return null;

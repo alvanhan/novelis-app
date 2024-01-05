@@ -283,6 +283,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Daftar Akun?"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="LabelDaftarMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

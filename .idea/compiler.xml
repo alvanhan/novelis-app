@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="peminjaman_buku" />
+        <module name="novelist_app" />
       </profile>
     </annotationProcessing>
   </component>

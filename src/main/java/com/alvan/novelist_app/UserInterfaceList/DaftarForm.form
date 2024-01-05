@@ -160,10 +160,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtPassword" min="-2" pref="40" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="BtnDaftar" min="-2" pref="40" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="BtnDaftar" min="-2" pref="42" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="LabelLogin" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="220" max="32767" attributes="0"/>
+                      <EmptySpace pref="224" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -278,6 +278,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Daftar"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="BtnDaftarMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="LabelLogin">
               <Properties>
@@ -289,6 +292,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Sudah punya akun?"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="LabelLoginMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

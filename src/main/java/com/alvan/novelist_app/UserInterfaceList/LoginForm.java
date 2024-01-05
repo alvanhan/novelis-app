@@ -109,6 +109,11 @@ public class LoginForm extends javax.swing.JFrame {
         LabelDaftar.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         LabelDaftar.setForeground(new java.awt.Color(231, 146, 21));
         LabelDaftar.setText("Daftar Akun?");
+        LabelDaftar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LabelDaftarMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelKananLoginLayout = new javax.swing.GroupLayout(PanelKananLogin);
         PanelKananLogin.setLayout(PanelKananLoginLayout);
@@ -180,6 +185,14 @@ public class LoginForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void LabelDaftarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LabelDaftarMouseClicked
+        // TODO add your handling code here:
+        DaftarForm registerForm = new DaftarForm();
+        registerForm.setVisible(true);
+        registerForm.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_LabelDaftarMouseClicked
 
     /**
      * @param args the command line arguments

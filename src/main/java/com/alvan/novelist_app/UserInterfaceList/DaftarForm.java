@@ -4,7 +4,16 @@
  */
 package com.alvan.novelist_app.UserInterfaceList;
 
+import com.alvan.novelist_app.Database.KoneksiDatabase;
+import com.alvan.novelist_app.Database.PasswordHash;
+import javax.swing.*;
 import java.awt.Dimension;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -110,10 +119,20 @@ public class DaftarForm extends javax.swing.JFrame {
         BtnDaftar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         BtnDaftar.setForeground(new java.awt.Color(255, 255, 255));
         BtnDaftar.setText("Daftar");
+        BtnDaftar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnDaftarMouseClicked(evt);
+            }
+        });
 
         LabelLogin.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         LabelLogin.setForeground(new java.awt.Color(231, 146, 21));
         LabelLogin.setText("Sudah punya akun?");
+        LabelLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LabelLoginMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelKananDaftarLayout = new javax.swing.GroupLayout(PanelKananDaftar);
         PanelKananDaftar.setLayout(PanelKananDaftarLayout);
@@ -158,10 +177,10 @@ public class DaftarForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
-                .addComponent(BtnDaftar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(BtnDaftar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(LabelLogin)
-                .addContainerGap(220, Short.MAX_VALUE))
+                .addContainerGap(224, Short.MAX_VALUE))
         );
 
         PanelUtamaDaftar.add(PanelKananDaftar);
@@ -184,6 +203,86 @@ public class DaftarForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void BtnDaftarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnDaftarMouseClicked
+        Connection connection = KoneksiDatabase.getConnection();
+
+        String nama = txtNama.getText();
+        String email = txtEmail.getText();
+        String password = txtPassword.getText();
+
+        if (nama.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Data tidak boleh kosong");
+            resetForm();
+        } else if (!CekEmail(email)) {
+            JOptionPane.showMessageDialog(null, "Email tidak valid");
+            resetForm();
+        } else if (password.length() < 8) {
+            JOptionPane.showMessageDialog(null, "Password minimal 8 karakter");
+            resetForm();
+        } else if (CekEmailExist(email)) {
+            JOptionPane.showMessageDialog(null, "Email sudah terdaftar");
+            resetForm();
+        } else {
+            try {
+                PasswordHash haspwd = new PasswordHash();
+                var pwdencrypt = haspwd.hashPassword(password);
+
+                String query = "INSERT INTO member (nama, email, password, created_at ) VALUES (?, ?, ?, NOW())";
+
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                    preparedStatement.setString(1, nama);
+                    preparedStatement.setString(2, email);
+                    preparedStatement.setString(3, pwdencrypt);
+
+                    preparedStatement.executeUpdate();
+
+                    JOptionPane.showMessageDialog(null, "Daftar berhasil silahkan login");
+                    new LoginForm().setVisible(true);
+                    this.dispose();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error executing query: " + ex.getMessage());
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Data gagal ditambahkan: " + e.getMessage());
+            }
+        }
+
+    }//GEN-LAST:event_BtnDaftarMouseClicked
+
+    private void LabelLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LabelLoginMouseClicked
+        LoginForm loginPage = new LoginForm();
+        loginPage.setVisible(true);
+        loginPage.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_LabelLoginMouseClicked
+
+    private boolean CekEmail(String Email) {
+        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(Email);
+        return matcher.matches();
+    }
+
+    private boolean CekEmailExist(String email) {
+        try (Connection connection = KoneksiDatabase.getConnection()) {
+            String query = "SELECT * FROM member WHERE email = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, email);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    return resultSet.next(); 
+                }
+            }
+        } catch (SQLException ex) { 
+            return false;
+        }
+    }
+
+    private void resetForm() {
+        txtNama.setText("");
+        txtEmail.setText("");
+        txtPassword.setText("");
+    }
 
     /**
      * @param args the command line arguments
@@ -216,6 +315,7 @@ public class DaftarForm extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new DaftarForm().setVisible(true);
+
             }
         });
     }
