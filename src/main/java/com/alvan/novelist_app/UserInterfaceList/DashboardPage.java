@@ -48,8 +48,6 @@ public class DashboardPage extends javax.swing.JFrame {
         LabelLogoSide = new javax.swing.JLabel();
         LblProfile = new javax.swing.JLabel();
         jSeparatorProfile = new javax.swing.JSeparator();
-        LblListBuku = new javax.swing.JLabel();
-        jSeparatorListBuku = new javax.swing.JSeparator();
         LblListPinjamanmu = new javax.swing.JLabel();
         jSeparatorListPinjamU = new javax.swing.JSeparator();
         BtnLogoutSide = new javax.swing.JButton();
@@ -73,13 +71,9 @@ public class DashboardPage extends javax.swing.JFrame {
         LblProfile.setForeground(new java.awt.Color(231, 146, 21));
         LblProfile.setText("Profile");
 
-        LblListBuku.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        LblListBuku.setForeground(new java.awt.Color(231, 146, 21));
-        LblListBuku.setText("List Buku");
-
         LblListPinjamanmu.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         LblListPinjamanmu.setForeground(new java.awt.Color(231, 146, 21));
-        LblListPinjamanmu.setText("List Pinjamanmu");
+        LblListPinjamanmu.setText("List Pinjaman");
 
         BtnLogoutSide.setBackground(new java.awt.Color(231, 146, 21));
         BtnLogoutSide.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -103,10 +97,8 @@ public class DashboardPage extends javax.swing.JFrame {
                 .addGap(45, 45, 45)
                 .addGroup(PanelSideLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(LblListPinjamanmu)
-                    .addComponent(LblListBuku)
                     .addComponent(LblProfile)
                     .addComponent(jSeparatorProfile)
-                    .addComponent(jSeparatorListBuku)
                     .addComponent(jSeparatorListPinjamU)
                     .addComponent(BtnLogoutSide, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -121,14 +113,10 @@ public class DashboardPage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparatorProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(LblListBuku)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparatorListBuku, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(LblListPinjamanmu)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparatorListPinjamU, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 402, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 464, Short.MAX_VALUE)
                 .addComponent(BtnLogoutSide, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55))
         );
@@ -257,7 +245,6 @@ public class DashboardPage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnLogoutSide;
     private javax.swing.JLabel LabelLogoSide;
-    private javax.swing.JLabel LblListBuku;
     private javax.swing.JLabel LblListPinjamanmu;
     private javax.swing.JLabel LblNamaUser;
     private javax.swing.JLabel LblProfile;
@@ -266,7 +253,6 @@ public class DashboardPage extends javax.swing.JFrame {
     private javax.swing.JPanel PanelDashboard;
     private javax.swing.JPanel PanelNav;
     private javax.swing.JPanel PanelSide;
-    private javax.swing.JSeparator jSeparatorListBuku;
     private javax.swing.JSeparator jSeparatorListPinjamU;
     private javax.swing.JSeparator jSeparatorProfile;
     // End of variables declaration//GEN-END:variables

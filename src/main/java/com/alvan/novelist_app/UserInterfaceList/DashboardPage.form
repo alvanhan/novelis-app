@@ -75,10 +75,8 @@
                       <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="LblListPinjamanmu" min="-2" max="-2" attributes="0"/>
-                          <Component id="LblListBuku" min="-2" max="-2" attributes="0"/>
                           <Component id="LblProfile" min="-2" max="-2" attributes="0"/>
                           <Component id="jSeparatorProfile" max="32767" attributes="0"/>
-                          <Component id="jSeparatorListBuku" alignment="0" max="32767" attributes="0"/>
                           <Component id="jSeparatorListPinjamU" alignment="0" max="32767" attributes="0"/>
                           <Component id="BtnLogoutSide" pref="170" max="32767" attributes="0"/>
                       </Group>
@@ -96,14 +94,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSeparatorProfile" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="LblListBuku" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jSeparatorListBuku" min="-2" pref="10" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="LblListPinjamanmu" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jSeparatorListPinjamU" min="-2" pref="10" max="-2" attributes="0"/>
-                      <EmptySpace pref="402" max="32767" attributes="0"/>
+                      <EmptySpace pref="464" max="32767" attributes="0"/>
                       <Component id="BtnLogoutSide" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
                   </Group>
@@ -134,19 +128,6 @@
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparatorProfile">
             </Component>
-            <Component class="javax.swing.JLabel" name="LblListBuku">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="16" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="15" green="92" red="e7" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="List Buku"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JSeparator" name="jSeparatorListBuku">
-            </Component>
             <Component class="javax.swing.JLabel" name="LblListPinjamanmu">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -155,7 +136,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="15" green="92" red="e7" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="List Pinjamanmu"/>
+                <Property name="text" type="java.lang.String" value="List Pinjaman"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparatorListPinjamU">
