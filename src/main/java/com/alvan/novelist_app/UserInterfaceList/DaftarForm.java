@@ -238,7 +238,9 @@ public class DaftarForm extends javax.swing.JFrame {
                     preparedStatement.executeUpdate();
 
                     JOptionPane.showMessageDialog(null, "Daftar berhasil silahkan login");
-                    new LoginForm().setVisible(true);
+                    LoginForm loginPage = new LoginForm();
+                    loginPage.setVisible(true);
+                    loginPage.setLocationRelativeTo(null);
                     this.dispose();
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Error executing query: " + ex.getMessage());
@@ -270,10 +272,10 @@ public class DaftarForm extends javax.swing.JFrame {
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, email);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    return resultSet.next(); 
+                    return resultSet.next();
                 }
             }
-        } catch (SQLException ex) { 
+        } catch (SQLException ex) {
             return false;
         }
     }

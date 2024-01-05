@@ -4,9 +4,14 @@
  */
 package com.alvan.novelist_app.UserInterfaceList;
 
+import com.alvan.novelist_app.Database.KoneksiDatabase;
+import com.alvan.novelist_app.Database.MemberClass;
 import com.alvan.novelist_app.Database.SessionLogin;
 
 import java.awt.Dimension;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  *
@@ -15,9 +20,9 @@ import java.awt.Dimension;
 public class DashboardPage extends javax.swing.JFrame {
 
 
-    String nama_user = SessionLogin.getUid();
-    Boolean status_login = SessionLogin.getStatusLogin();
-
+    String MemberId = SessionLogin.getUid();
+    Boolean LoginStatus = SessionLogin.getStatusLogin();
+    MemberClass member = MemberClass.getMeberDetail(MemberId);
 
     /**
      * Creates new form DashboardPage
@@ -25,14 +30,8 @@ public class DashboardPage extends javax.swing.JFrame {
     public DashboardPage() {
         initComponents();
         setSize(new Dimension(1400, 800));
-
-        if (status_login == true && nama_user != null) {
-            LblNamaUser.setText(nama_user);
-            BtnLoginNav.setText("Keluar");
-        } else {
-            LblNamaUser.setText("Username");
-            BtnLoginNav.setText("Masuk");
-        }
+        setLocationRelativeTo(null);
+        LblNamaUser.setText(member.getNama().toUpperCase());
     }
 
     /**
@@ -53,11 +52,10 @@ public class DashboardPage extends javax.swing.JFrame {
         jSeparatorListBuku = new javax.swing.JSeparator();
         LblListPinjamanmu = new javax.swing.JLabel();
         jSeparatorListPinjamU = new javax.swing.JSeparator();
-        BtnKeluarSide = new javax.swing.JButton();
+        BtnLogoutSide = new javax.swing.JButton();
         PanelNav = new javax.swing.JPanel();
         LblSelamat = new javax.swing.JLabel();
         LblNamaUser = new javax.swing.JLabel();
-        BtnLoginNav = new javax.swing.JButton();
         PanelDashMain = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -83,10 +81,15 @@ public class DashboardPage extends javax.swing.JFrame {
         LblListPinjamanmu.setForeground(new java.awt.Color(231, 146, 21));
         LblListPinjamanmu.setText("List Pinjamanmu");
 
-        BtnKeluarSide.setBackground(new java.awt.Color(231, 146, 21));
-        BtnKeluarSide.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        BtnKeluarSide.setForeground(new java.awt.Color(255, 255, 255));
-        BtnKeluarSide.setText("Keluar");
+        BtnLogoutSide.setBackground(new java.awt.Color(231, 146, 21));
+        BtnLogoutSide.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        BtnLogoutSide.setForeground(new java.awt.Color(255, 255, 255));
+        BtnLogoutSide.setText("Keluar");
+        BtnLogoutSide.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnLogoutSideMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelSideLayout = new javax.swing.GroupLayout(PanelSide);
         PanelSide.setLayout(PanelSideLayout);
@@ -105,7 +108,7 @@ public class DashboardPage extends javax.swing.JFrame {
                     .addComponent(jSeparatorProfile)
                     .addComponent(jSeparatorListBuku)
                     .addComponent(jSeparatorListPinjamU)
-                    .addComponent(BtnKeluarSide, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
+                    .addComponent(BtnLogoutSide, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelSideLayout.setVerticalGroup(
@@ -126,7 +129,7 @@ public class DashboardPage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparatorListPinjamU, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 402, Short.MAX_VALUE)
-                .addComponent(BtnKeluarSide, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(BtnLogoutSide, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55))
         );
 
@@ -144,11 +147,6 @@ public class DashboardPage extends javax.swing.JFrame {
         LblNamaUser.setForeground(new java.awt.Color(255, 255, 255));
         LblNamaUser.setText("Username");
 
-        BtnLoginNav.setBackground(new java.awt.Color(125, 85, 31));
-        BtnLoginNav.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        BtnLoginNav.setForeground(new java.awt.Color(255, 255, 255));
-        BtnLoginNav.setText("Masuk");
-
         javax.swing.GroupLayout PanelNavLayout = new javax.swing.GroupLayout(PanelNav);
         PanelNav.setLayout(PanelNavLayout);
         PanelNavLayout.setHorizontalGroup(
@@ -158,19 +156,16 @@ public class DashboardPage extends javax.swing.JFrame {
                 .addComponent(LblSelamat)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(LblNamaUser)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 814, Short.MAX_VALUE)
-                .addComponent(BtnLoginNav, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50))
+                .addContainerGap(965, Short.MAX_VALUE))
         );
         PanelNavLayout.setVerticalGroup(
             PanelNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelNavLayout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(26, Short.MAX_VALUE)
                 .addGroup(PanelNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(LblSelamat)
-                    .addComponent(LblNamaUser)
-                    .addComponent(BtnLoginNav, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15))
+                    .addComponent(LblNamaUser))
+                .addGap(24, 24, 24))
         );
 
         PanelDashboard.add(PanelNav);
@@ -210,6 +205,16 @@ public class DashboardPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void BtnLogoutSideMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnLogoutSideMouseClicked
+        LoginForm loginForm = new LoginForm();
+        loginForm.setVisible(true);
+        loginForm.setLocationRelativeTo(null);
+        dispose();
+        SessionLogin.setStatusLogin(false);
+        SessionLogin.setUid(null);
+
+    }//GEN-LAST:event_BtnLogoutSideMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -245,9 +250,12 @@ public class DashboardPage extends javax.swing.JFrame {
         });
     }
 
+
+
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnKeluarSide;
-    private javax.swing.JButton BtnLoginNav;
+    private javax.swing.JButton BtnLogoutSide;
     private javax.swing.JLabel LabelLogoSide;
     private javax.swing.JLabel LblListBuku;
     private javax.swing.JLabel LblListPinjamanmu;

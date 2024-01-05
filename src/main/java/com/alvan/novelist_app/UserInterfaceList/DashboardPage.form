@@ -80,7 +80,7 @@
                           <Component id="jSeparatorProfile" max="32767" attributes="0"/>
                           <Component id="jSeparatorListBuku" alignment="0" max="32767" attributes="0"/>
                           <Component id="jSeparatorListPinjamU" alignment="0" max="32767" attributes="0"/>
-                          <Component id="BtnKeluarSide" pref="170" max="32767" attributes="0"/>
+                          <Component id="BtnLogoutSide" pref="170" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -104,7 +104,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jSeparatorListPinjamU" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace pref="402" max="32767" attributes="0"/>
-                      <Component id="BtnKeluarSide" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="BtnLogoutSide" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -160,7 +160,7 @@
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparatorListPinjamU">
             </Component>
-            <Component class="javax.swing.JButton" name="BtnKeluarSide">
+            <Component class="javax.swing.JButton" name="BtnLogoutSide">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="15" green="92" red="e7" type="rgb"/>
@@ -173,6 +173,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Keluar"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="BtnLogoutSideMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -196,22 +199,19 @@
                       <Component id="LblSelamat" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="LblNamaUser" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="814" max="32767" attributes="0"/>
-                      <Component id="BtnLoginNav" min="-2" pref="101" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                      <EmptySpace pref="965" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="18" max="32767" attributes="0"/>
+                      <EmptySpace pref="26" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="LblSelamat" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="LblNamaUser" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="BtnLoginNav" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -240,20 +240,6 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Username"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="BtnLoginNav">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="1f" green="55" red="7d" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Masuk"/>
               </Properties>
             </Component>
           </SubComponents>

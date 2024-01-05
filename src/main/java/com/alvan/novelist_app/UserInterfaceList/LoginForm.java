@@ -4,7 +4,15 @@
  */
 package com.alvan.novelist_app.UserInterfaceList;
 
+import com.alvan.novelist_app.Database.KoneksiDatabase;
+import com.alvan.novelist_app.Database.PasswordHash;
+import com.alvan.novelist_app.Database.SessionLogin;
+
 import java.awt.Dimension;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -105,6 +113,11 @@ public class LoginForm extends javax.swing.JFrame {
         BtnMasuk.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         BtnMasuk.setForeground(new java.awt.Color(255, 255, 255));
         BtnMasuk.setText("Masuk");
+        BtnMasuk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnMasukMouseClicked(evt);
+            }
+        });
 
         LabelDaftar.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         LabelDaftar.setForeground(new java.awt.Color(231, 146, 21));
@@ -193,6 +206,65 @@ public class LoginForm extends javax.swing.JFrame {
         registerForm.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_LabelDaftarMouseClicked
+
+    private void BtnMasukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnMasukMouseClicked
+        Connection connection = KoneksiDatabase.getConnection();
+
+        String email = txtEmail.getText();
+        String password = txtPassword.getText();
+
+        if (email.isEmpty() || password.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Email dan Password tidak boleh kosong!");
+            resetForm();
+        } else {
+            try {
+                // Check if the user with the given email exists
+                String checkUserSql = "SELECT * FROM member WHERE email = ?";
+                try (PreparedStatement checkMemberStatement = connection.prepareStatement(checkUserSql)) {
+                    checkMemberStatement.setString(1, email);
+
+                    try (ResultSet userResultSet = checkMemberStatement.executeQuery()) {
+                        if (userResultSet.next()) {
+                            String memberId = userResultSet.getString("id");
+                            String hashedPasswordFromDB = userResultSet.getString("password");
+
+                            PasswordHash passwordHash = new PasswordHash();
+
+                            if (passwordHash.checkPassword(password, hashedPasswordFromDB)) {
+
+                                SessionLogin.setUid(memberId);
+                                SessionLogin.setStatusLogin(true);
+
+                                javax.swing.JOptionPane.showMessageDialog(null, "Login berhasil!");
+                                DashboardPage dashboardPage = new DashboardPage();
+                                dashboardPage.setVisible(true);
+                                dashboardPage.setLocationRelativeTo(null);
+                                this.dispose();
+                            } else {
+                                javax.swing.JOptionPane.showMessageDialog(null, "Email atau Password salah!");
+                                resetForm();
+                            }
+                        } else {
+                            javax.swing.JOptionPane.showMessageDialog(null, "User tidak ditemukan!");
+                            resetForm();
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace(); // Log or handle the exception appropriately
+                javax.swing.JOptionPane.showMessageDialog(null, "Terjadi kesalahan!");
+            }
+        }
+
+
+
+    }//GEN-LAST:event_BtnMasukMouseClicked
+
+
+    private void resetForm() {
+        txtEmail.setText("");
+        txtPassword.setText("");
+    }
 
     /**
      * @param args the command line arguments
