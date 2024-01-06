@@ -9,6 +9,7 @@ import com.alvan.novelist_app.Database.PasswordHash;
 import com.alvan.novelist_app.Database.SessionLogin;
 
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -62,7 +63,6 @@ public class LoginForm extends javax.swing.JFrame {
         PanelLoginKiri.setBackground(new java.awt.Color(231, 146, 21));
         PanelLoginKiri.setPreferredSize(new java.awt.Dimension(700, 800));
 
-        LabelLogoLogin.setIcon(new javax.swing.ImageIcon("D:\\Kuli\\s3\\pbo\\novelist_app\\src\\main\\java\\com\\alvan\\novelist_app\\AssetGambar\\Novelist-logos_white 1.png")); // NOI18N
         LabelLogoLogin.setLabelFor(PanelLoginKiri);
 
         javax.swing.GroupLayout PanelLoginKiriLayout = new javax.swing.GroupLayout(PanelLoginKiri);
@@ -101,6 +101,11 @@ public class LoginForm extends javax.swing.JFrame {
         txtEmail.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtEmail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
         txtEmail.setMargin(new java.awt.Insets(2, 3, 2, 6));
+        txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtEmailKeyPressed(evt);
+            }
+        });
 
         LabelPassword.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         LabelPassword.setForeground(new java.awt.Color(102, 102, 102));
@@ -108,6 +113,11 @@ public class LoginForm extends javax.swing.JFrame {
 
         txtPassword.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtPassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyPressed(evt);
+            }
+        });
 
         BtnMasuk.setBackground(new java.awt.Color(231, 146, 21));
         BtnMasuk.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -116,6 +126,11 @@ public class LoginForm extends javax.swing.JFrame {
         BtnMasuk.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BtnMasukMouseClicked(evt);
+            }
+        });
+        BtnMasuk.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                BtnMasukKeyPressed(evt);
             }
         });
 
@@ -259,6 +274,72 @@ public class LoginForm extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_BtnMasukMouseClicked
+
+    private void BtnMasukKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnMasukKeyPressed
+        Connection connection = KoneksiDatabase.getConnection();
+
+        String email = txtEmail.getText();
+        String password = txtPassword.getText();
+
+        if (email.isEmpty() || password.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Email dan Password tidak boleh kosong!");
+            resetForm();
+        } else {
+            try {
+                // Check if the user with the given email exists
+                String checkUserSql = "SELECT * FROM member WHERE email = ?";
+                try (PreparedStatement checkMemberStatement = connection.prepareStatement(checkUserSql)) {
+                    checkMemberStatement.setString(1, email);
+
+                    try (ResultSet userResultSet = checkMemberStatement.executeQuery()) {
+                        if (userResultSet.next()) {
+                            String memberId = userResultSet.getString("id");
+                            String hashedPasswordFromDB = userResultSet.getString("password");
+
+                            PasswordHash passwordHash = new PasswordHash();
+
+                            if (passwordHash.checkPassword(password, hashedPasswordFromDB)) {
+
+                                SessionLogin.setUid(memberId);
+                                SessionLogin.setStatusLogin(true);
+
+                                javax.swing.JOptionPane.showMessageDialog(null, "Login berhasil!");
+                                DashboardPage dashboardPage = new DashboardPage();
+                                dashboardPage.setVisible(true);
+                                dashboardPage.setLocationRelativeTo(null);
+                                this.dispose();
+                            } else {
+                                javax.swing.JOptionPane.showMessageDialog(null, "Email atau Password salah!");
+                                resetForm();
+                            }
+                        } else {
+                            javax.swing.JOptionPane.showMessageDialog(null, "User tidak ditemukan!");
+                            resetForm();
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace(); // Log or handle the exception appropriately
+                javax.swing.JOptionPane.showMessageDialog(null, "Terjadi kesalahan!");
+            }
+        }
+        
+        if(evt.getKeyCode ()== KeyEvent.VK_ENTER){
+        BtnMasuk.doClick();
+        }
+    }//GEN-LAST:event_BtnMasukKeyPressed
+
+    private void txtEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyPressed
+        if(evt.getKeyCode ()== KeyEvent.VK_ENTER){
+        txtPassword.requestFocus();
+        }
+    }//GEN-LAST:event_txtEmailKeyPressed
+
+    private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
+        if(evt.getKeyCode ()== KeyEvent.VK_ENTER){
+        BtnMasuk.requestFocus();
+        }
+    }//GEN-LAST:event_txtPasswordKeyPressed
 
 
     private void resetForm() {

@@ -87,11 +87,6 @@
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JLabel" name="LabelLogoDaftar">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="D:\Kuli\s3\pbo\novelist_app\src\main\java\com\alvan\novelist_app\AssetGambar\Novelist-logos_white 1.png"/>
-                </Property>
-              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -131,8 +126,8 @@
                               <Component id="LabelNama" min="-2" max="-2" attributes="0"/>
                               <Component id="SeparatorDaftar" max="32767" attributes="0"/>
                               <Component id="txtNama" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtEmail" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtPassword" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtEmailDaf" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtPasswordDaf" alignment="0" max="32767" attributes="0"/>
                               <Component id="BtnDaftar" pref="478" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -154,11 +149,11 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="LabelEmail" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtEmail" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="txtEmailDaf" min="-2" pref="40" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                       <Component id="LabelPassword" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtPassword" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="txtPasswordDaf" min="-2" pref="40" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       <Component id="BtnDaftar" min="-2" pref="42" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -214,6 +209,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNamaKeyPressed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="LabelEmail">
               <Properties>
@@ -226,7 +224,7 @@
                 <Property name="text" type="java.lang.String" value="Email"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtEmail">
+            <Component class="javax.swing.JTextField" name="txtEmailDaf">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="1"/>
@@ -239,6 +237,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtEmailDafKeyPressed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="LabelPassword">
               <Properties>
@@ -251,7 +252,7 @@
                 <Property name="text" type="java.lang.String" value="Password"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JPasswordField" name="txtPassword">
+            <Component class="javax.swing.JPasswordField" name="txtPasswordDaf">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="1"/>
@@ -264,6 +265,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPasswordDafKeyPressed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="BtnDaftar">
               <Properties>
@@ -280,6 +284,7 @@
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="BtnDaftarMouseClicked"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="BtnDaftarKeyPressed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="LabelLogin">

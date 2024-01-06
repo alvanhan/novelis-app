@@ -99,9 +99,6 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="LabelLogoLogin">
               <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="D:\Kuli\s3\pbo\novelist_app\src\main\java\com\alvan\novelist_app\AssetGambar\Novelist-logos_white 1.png"/>
-                </Property>
                 <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                   <ComponentRef name="PanelLoginKiri"/>
                 </Property>
@@ -233,6 +230,9 @@
                   <Insets value="[2, 3, 2, 6]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtEmailKeyPressed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="LabelPassword">
               <Properties>
@@ -258,6 +258,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPasswordKeyPressed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="BtnMasuk">
               <Properties>
@@ -274,6 +277,7 @@
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="BtnMasukMouseClicked"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="BtnMasukKeyPressed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="LabelDaftar">

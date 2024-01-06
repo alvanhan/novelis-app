@@ -64,8 +64,6 @@ public class DashboardPage extends javax.swing.JFrame {
 
         PanelSide.setBackground(new java.awt.Color(255, 255, 255));
 
-        LabelLogoSide.setIcon(new javax.swing.ImageIcon("D:\\Kuli\\s3\\pbo\\novelist_app\\src\\main\\java\\com\\alvan\\novelist_app\\AssetGambar\\Novelist-logos_transparent 4.png")); // NOI18N
-
         LblProfile.setBackground(new java.awt.Color(231, 146, 21));
         LblProfile.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         LblProfile.setForeground(new java.awt.Color(231, 146, 21));
@@ -74,6 +72,11 @@ public class DashboardPage extends javax.swing.JFrame {
         LblListPinjamanmu.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         LblListPinjamanmu.setForeground(new java.awt.Color(231, 146, 21));
         LblListPinjamanmu.setText("List Pinjaman");
+        LblListPinjamanmu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LblListPinjamanmuMouseClicked(evt);
+            }
+        });
 
         BtnLogoutSide.setBackground(new java.awt.Color(231, 146, 21));
         BtnLogoutSide.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -202,6 +205,14 @@ public class DashboardPage extends javax.swing.JFrame {
         SessionLogin.setUid(null);
 
     }//GEN-LAST:event_BtnLogoutSideMouseClicked
+
+    private void LblListPinjamanmuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblListPinjamanmuMouseClicked
+        dispose();
+        
+        ListPeminjamanPage listPeminjamanPage = new ListPeminjamanPage();
+        listPeminjamanPage.setVisible(true);
+        listPeminjamanPage.setLocationRelativeTo(null);
+    }//GEN-LAST:event_LblListPinjamanmuMouseClicked
 
     /**
      * @param args the command line arguments

@@ -8,6 +8,7 @@ import com.alvan.novelist_app.Database.KoneksiDatabase;
 import com.alvan.novelist_app.Database.PasswordHash;
 import javax.swing.*;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,9 +49,9 @@ public class DaftarForm extends javax.swing.JFrame {
         LabelNama = new javax.swing.JLabel();
         txtNama = new javax.swing.JTextField();
         LabelEmail = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
+        txtEmailDaf = new javax.swing.JTextField();
         LabelPassword = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JPasswordField();
+        txtPasswordDaf = new javax.swing.JPasswordField();
         BtnDaftar = new javax.swing.JButton();
         LabelLogin = new javax.swing.JLabel();
 
@@ -63,8 +64,6 @@ public class DaftarForm extends javax.swing.JFrame {
         PanelKiriDaftar.setBackground(new java.awt.Color(231, 146, 21));
         PanelKiriDaftar.setMinimumSize(new java.awt.Dimension(700, 800));
         PanelKiriDaftar.setPreferredSize(new java.awt.Dimension(700, 800));
-
-        LabelLogoDaftar.setIcon(new javax.swing.ImageIcon("D:\\Kuli\\s3\\pbo\\novelist_app\\src\\main\\java\\com\\alvan\\novelist_app\\AssetGambar\\Novelist-logos_white 1.png")); // NOI18N
 
         javax.swing.GroupLayout PanelKiriDaftarLayout = new javax.swing.GroupLayout(PanelKiriDaftar);
         PanelKiriDaftar.setLayout(PanelKiriDaftarLayout);
@@ -100,20 +99,35 @@ public class DaftarForm extends javax.swing.JFrame {
 
         txtNama.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtNama.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
+        txtNama.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNamaKeyPressed(evt);
+            }
+        });
 
         LabelEmail.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         LabelEmail.setForeground(new java.awt.Color(231, 146, 21));
         LabelEmail.setText("Email");
 
-        txtEmail.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        txtEmail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
+        txtEmailDaf.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtEmailDaf.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
+        txtEmailDaf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtEmailDafKeyPressed(evt);
+            }
+        });
 
         LabelPassword.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         LabelPassword.setForeground(new java.awt.Color(231, 146, 21));
         LabelPassword.setText("Password");
 
-        txtPassword.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        txtPassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
+        txtPasswordDaf.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtPasswordDaf.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
+        txtPasswordDaf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPasswordDafKeyPressed(evt);
+            }
+        });
 
         BtnDaftar.setBackground(new java.awt.Color(231, 146, 21));
         BtnDaftar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -122,6 +136,11 @@ public class DaftarForm extends javax.swing.JFrame {
         BtnDaftar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BtnDaftarMouseClicked(evt);
+            }
+        });
+        BtnDaftar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                BtnDaftarKeyPressed(evt);
             }
         });
 
@@ -152,8 +171,8 @@ public class DaftarForm extends javax.swing.JFrame {
                         .addComponent(LabelNama)
                         .addComponent(SeparatorDaftar)
                         .addComponent(txtNama)
-                        .addComponent(txtEmail)
-                        .addComponent(txtPassword)
+                        .addComponent(txtEmailDaf)
+                        .addComponent(txtPasswordDaf)
                         .addComponent(BtnDaftar, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -171,11 +190,11 @@ public class DaftarForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(LabelEmail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtEmailDaf, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
                 .addComponent(LabelPassword)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtPasswordDaf, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addComponent(BtnDaftar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -208,8 +227,8 @@ public class DaftarForm extends javax.swing.JFrame {
         Connection connection = KoneksiDatabase.getConnection();
 
         String nama = txtNama.getText();
-        String email = txtEmail.getText();
-        String password = txtPassword.getText();
+        String email = txtEmailDaf.getText();
+        String password = txtPasswordDaf.getText();
 
         if (nama.isEmpty() || email.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Data tidak boleh kosong");
@@ -259,6 +278,75 @@ public class DaftarForm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_LabelLoginMouseClicked
 
+    private void txtNamaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNamaKeyPressed
+        if(evt.getKeyCode ()== KeyEvent.VK_ENTER){
+        txtEmailDaf.requestFocus();
+        }
+    }//GEN-LAST:event_txtNamaKeyPressed
+
+    private void txtEmailDafKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailDafKeyPressed
+        if(evt.getKeyCode ()== KeyEvent.VK_ENTER){
+        txtPasswordDaf.requestFocus();
+        }
+    }//GEN-LAST:event_txtEmailDafKeyPressed
+
+    private void txtPasswordDafKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordDafKeyPressed
+        if(evt.getKeyCode ()== KeyEvent.VK_ENTER){
+        BtnDaftar.requestFocus();
+        }
+    }//GEN-LAST:event_txtPasswordDafKeyPressed
+
+    private void BtnDaftarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnDaftarKeyPressed
+        Connection connection = KoneksiDatabase.getConnection();
+
+        String nama = txtNama.getText();
+        String email = txtEmailDaf.getText();
+        String password = txtPasswordDaf.getText();
+
+        if (nama.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Data tidak boleh kosong");
+            resetForm();
+        } else if (!CekEmail(email)) {
+            JOptionPane.showMessageDialog(null, "Email tidak valid");
+            resetForm();
+        } else if (password.length() < 8) {
+            JOptionPane.showMessageDialog(null, "Password minimal 8 karakter");
+            resetForm();
+        } else if (CekEmailExist(email)) {
+            JOptionPane.showMessageDialog(null, "Email sudah terdaftar");
+            resetForm();
+        } else {
+            try {
+                PasswordHash haspwd = new PasswordHash();
+                var pwdencrypt = haspwd.hashPassword(password);
+
+                String query = "INSERT INTO member (nama, email, password, created_at ) VALUES (?, ?, ?, NOW())";
+
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                    preparedStatement.setString(1, nama);
+                    preparedStatement.setString(2, email);
+                    preparedStatement.setString(3, pwdencrypt);
+
+                    preparedStatement.executeUpdate();
+
+                    JOptionPane.showMessageDialog(null, "Daftar berhasil silahkan login");
+                    LoginForm loginPage = new LoginForm();
+                    loginPage.setVisible(true);
+                    loginPage.setLocationRelativeTo(null);
+                    this.dispose();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error executing query: " + ex.getMessage());
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Data gagal ditambahkan: " + e.getMessage());
+            }
+        }
+        
+        if(evt.getKeyCode ()== KeyEvent.VK_ENTER){
+        BtnDaftar.doClick();
+        }
+    }//GEN-LAST:event_BtnDaftarKeyPressed
+
     private boolean CekEmail(String Email) {
         String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}";
         Pattern pattern = Pattern.compile(regex);
@@ -282,8 +370,8 @@ public class DaftarForm extends javax.swing.JFrame {
 
     private void resetForm() {
         txtNama.setText("");
-        txtEmail.setText("");
-        txtPassword.setText("");
+        txtEmailDaf.setText("");
+        txtPasswordDaf.setText("");
     }
 
     /**
@@ -334,8 +422,8 @@ public class DaftarForm extends javax.swing.JFrame {
     private javax.swing.JPanel PanelKiriDaftar;
     private javax.swing.JPanel PanelUtamaDaftar;
     private javax.swing.JSeparator SeparatorDaftar;
-    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtEmailDaf;
     private javax.swing.JTextField txtNama;
-    private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JPasswordField txtPasswordDaf;
     // End of variables declaration//GEN-END:variables
 }
