@@ -63,6 +63,7 @@ public class LoginForm extends javax.swing.JFrame {
         PanelLoginKiri.setBackground(new java.awt.Color(231, 146, 21));
         PanelLoginKiri.setPreferredSize(new java.awt.Dimension(700, 800));
 
+        LabelLogoLogin.setIcon(new javax.swing.ImageIcon("D:\\Kuli\\s3\\pbo\\novelist_app\\src\\main\\java\\com\\alvan\\novelist_app\\AssetGambar\\Novelist-logos_white 1.png")); // NOI18N
         LabelLogoLogin.setLabelFor(PanelLoginKiri);
 
         javax.swing.GroupLayout PanelLoginKiriLayout = new javax.swing.GroupLayout(PanelLoginKiri);
@@ -75,8 +76,8 @@ public class LoginForm extends javax.swing.JFrame {
             PanelLoginKiriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelLoginKiriLayout.createSequentialGroup()
                 .addGap(67, 67, 67)
-                .addComponent(LabelLogoLogin)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addComponent(LabelLogoLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 614, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(119, Short.MAX_VALUE))
         );
 
         PanelLoginUtama.add(PanelLoginKiri);

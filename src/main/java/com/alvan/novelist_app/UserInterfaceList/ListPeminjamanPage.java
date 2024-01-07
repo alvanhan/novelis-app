@@ -64,8 +64,7 @@ public class ListPeminjamanPage extends javax.swing.JFrame {
         PanelSide.setPreferredSize(new java.awt.Dimension(260, 800));
         PanelSide.setLayout(null);
 
-        LabelLogo.setIcon(new javax.swing.ImageIcon("D:\\Project PBO\\Project UAS\\novelis-app\\src\\main\\java\\com\\alvan\\novelist_app\\AssetGambar\\Novelist-logos_transparent 4.png")); // NOI18N
-        LabelLogo.setPreferredSize(new java.awt.Dimension(0, 0));
+        LabelLogo.setIcon(new javax.swing.ImageIcon("D:\\Kuli\\s3\\pbo\\novelist_app\\src\\main\\java\\com\\alvan\\novelist_app\\AssetGambar\\Novelist-logos_transparent 4.png")); // NOI18N
         PanelSide.add(LabelLogo);
         LabelLogo.setBounds(6, 15, 246, 56);
         LabelLogo.getAccessibleContext().setAccessibleName("LabelLogo");
@@ -76,10 +75,9 @@ public class ListPeminjamanPage extends javax.swing.JFrame {
         LabelProfile.setText("Profile");
         LabelProfile.setPreferredSize(new java.awt.Dimension(50, 22));
         PanelSide.add(LabelProfile);
-        LabelProfile.setBounds(45, 146, 50, 22);
+        LabelProfile.setBounds(45, 146, 170, 22);
         LabelProfile.getAccessibleContext().setAccessibleName("LabelProfil");
 
-        jSeparatorProfile.setPreferredSize(new java.awt.Dimension(0, 3));
         PanelSide.add(jSeparatorProfile);
         jSeparatorProfile.setBounds(45, 174, 170, 10);
 
@@ -93,7 +91,6 @@ public class ListPeminjamanPage extends javax.swing.JFrame {
         LabelListPinjam.setBounds(45, 202, 110, 22);
 
         jSeparatorListPinjam.setMinimumSize(new java.awt.Dimension(170, 10));
-        jSeparatorListPinjam.setPreferredSize(new java.awt.Dimension(0, 3));
         PanelSide.add(jSeparatorListPinjam);
         jSeparatorListPinjam.setBounds(45, 236, 170, 10);
         jSeparatorListPinjam.getAccessibleContext().setAccessibleName("");
@@ -113,7 +110,7 @@ public class ListPeminjamanPage extends javax.swing.JFrame {
         BtnBack.setBackground(new java.awt.Color(231, 146, 21));
         BtnBack.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         BtnBack.setForeground(new java.awt.Color(255, 255, 255));
-        BtnBack.setText("Back");
+        BtnBack.setText("Kembali");
         BtnBack.setMaximumSize(new java.awt.Dimension(74, 27));
         BtnBack.setMinimumSize(new java.awt.Dimension(74, 27));
         BtnBack.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -160,27 +157,16 @@ public class ListPeminjamanPage extends javax.swing.JFrame {
 
         PanelTabel.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        TabelPinjam.setAutoCreateRowSorter(true);
+        TabelPinjam.setForeground(new java.awt.Color(231, 146, 21));
         TabelPinjam.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(123), "asep", "12-12-1212", "01-01-1213", "Tutor Kaya", null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "Member ID", "Nama", "Tanggal Pinjam", "Tanggal Kembali", "Judul Buku", "Action"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-        });
+        ));
         TabelPinjam.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         PanelTabel.setViewportView(TabelPinjam);
 
@@ -202,7 +188,7 @@ public class ListPeminjamanPage extends javax.swing.JFrame {
                 .addComponent(LabelListPinjamMain)
                 .addGap(18, 18, 18)
                 .addComponent(PanelTabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap(170, Short.MAX_VALUE))
         );
 
         PanelPeminjaman.add(PanelPeminMain);

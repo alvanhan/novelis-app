@@ -87,6 +87,11 @@
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JLabel" name="LabelLogoDaftar">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="D:\Kuli\s3\pbo\novelist_app\src\main\java\com\alvan\novelist_app\AssetGambar\Novelist-logos_white 1.png"/>
+                </Property>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

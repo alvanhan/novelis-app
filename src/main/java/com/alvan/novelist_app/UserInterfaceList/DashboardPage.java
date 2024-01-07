@@ -7,11 +7,19 @@ package com.alvan.novelist_app.UserInterfaceList;
 import com.alvan.novelist_app.Database.KoneksiDatabase;
 import com.alvan.novelist_app.Database.MemberClass;
 import com.alvan.novelist_app.Database.SessionLogin;
+import com.alvan.novelist_app.UserInterfaceList.Dialog.DetailBuku;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -55,6 +63,9 @@ public class DashboardPage extends javax.swing.JFrame {
         LblSelamat = new javax.swing.JLabel();
         LblNamaUser = new javax.swing.JLabel();
         PanelDashMain = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TabelListBuku = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -63,6 +74,8 @@ public class DashboardPage extends javax.swing.JFrame {
         PanelDashboard.setLayout(null);
 
         PanelSide.setBackground(new java.awt.Color(255, 255, 255));
+
+        LabelLogoSide.setIcon(new javax.swing.ImageIcon("D:\\Kuli\\s3\\pbo\\novelist_app\\src\\main\\java\\com\\alvan\\novelist_app\\AssetGambar\\Novelist-logos_transparent 4.png")); // NOI18N
 
         LblProfile.setBackground(new java.awt.Color(231, 146, 21));
         LblProfile.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -164,15 +177,49 @@ public class DashboardPage extends javax.swing.JFrame {
 
         PanelDashMain.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(231, 146, 21));
+        jLabel1.setText("List Buku Yang Tersedia");
+
+        TabelListBuku.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(231, 146, 21)));
+        TabelListBuku.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        TabelListBuku.setModel(DataListBukuTable());
+        TabelListBuku.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        TabelListBuku.setGridColor(new java.awt.Color(231, 146, 21));
+        TabelListBuku.setRowHeight(50);
+        TabelListBuku.setSelectionBackground(new java.awt.Color(231, 146, 21));
+        TabelListBuku.setUpdateSelectionOnSort(false);
+        TabelListBuku.setVerifyInputWhenFocusTarget(false);
+        TabelListBuku.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TabelListBukuMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TabelListBuku);
+        TabelListBuku.getAccessibleContext().setAccessibleParent(PanelDashMain);
+
         javax.swing.GroupLayout PanelDashMainLayout = new javax.swing.GroupLayout(PanelDashMain);
         PanelDashMain.setLayout(PanelDashMainLayout);
         PanelDashMainLayout.setHorizontalGroup(
             PanelDashMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1060, Short.MAX_VALUE)
+            .addGroup(PanelDashMainLayout.createSequentialGroup()
+                .addContainerGap(431, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(426, 426, 426))
+            .addGroup(PanelDashMainLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelDashMainLayout.setVerticalGroup(
             PanelDashMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addGroup(PanelDashMainLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(179, Short.MAX_VALUE))
         );
 
         PanelDashboard.add(PanelDashMain);
@@ -213,6 +260,117 @@ public class DashboardPage extends javax.swing.JFrame {
         listPeminjamanPage.setVisible(true);
         listPeminjamanPage.setLocationRelativeTo(null);
     }//GEN-LAST:event_LblListPinjamanmuMouseClicked
+
+    private void TabelListBukuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelListBukuMouseClicked
+        int selectedRow = TabelListBuku.getSelectedRow();
+        if (selectedRow != -1) {
+            int id = (int) TabelListBuku.getValueAt(selectedRow, 0);
+            System.out.println("ID: " + id);
+            showBookDetailsDialog(id);
+        }
+    }//GEN-LAST:event_TabelListBukuMouseClicked
+
+    private void showBookDetailsDialog(int bookId) {
+        try {
+            Connection connection = KoneksiDatabase.getConnection();
+            String query = "SELECT * FROM buku WHERE id=?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, bookId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                String judul = resultSet.getString("judul");
+                double hargaPinjam = resultSet.getDouble("harga_pinjam");
+                String pengarang = resultSet.getString("pengarang");
+                int jumlahHalaman = resultSet.getInt("jumlah_halaman");
+                String Gambar = resultSet.getString("gambar");
+                String Penerbit = resultSet.getString("penerbit");
+                String TahunTerbit = resultSet.getString("tahun_terbit");
+                String Sinopsis = resultSet.getString("sinopsis");
+
+                DetailBuku detailBuku = new DetailBuku();
+                detailBuku.txtJudulBuku.setText(judul);
+                detailBuku.txtHargaPinjam.setText(String.valueOf(hargaPinjam));
+                detailBuku.txtPengarang.setText(pengarang);
+                detailBuku.txtJumlahHalaman.setText(String.valueOf(jumlahHalaman));
+                detailBuku.txtPenerbit.setText(Penerbit);
+                detailBuku.txtTahunTerbit.setText(TahunTerbit);
+                detailBuku.textareaSinopsis.setText(Sinopsis);
+
+                URL url = new URL(Gambar);
+                Image originalImage = ImageIO.read(url);
+                int width = 230;
+                int height = 380;
+                Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                ImageIcon icon = new ImageIcon(scaledImage);
+                detailBuku.GambarBuku.setIcon(icon);
+
+                detailBuku.setVisible(true);
+                detailBuku.setLocationRelativeTo(null);
+
+                detailBuku.BtnTutupDetail.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        detailBuku.dispose();
+                    }
+                });
+            }
+
+            // Close the resources
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private DefaultTableModel DataListBukuTable() {
+        try {
+            Connection connection = KoneksiDatabase.getConnection();
+            String query = "SELECT * FROM buku";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            DefaultTableModel model = new TidakBisaDiEdit();
+            model.addColumn("No");
+            model.addColumn("Judul");
+            model.addColumn("Harga Pinjam");
+            model.addColumn("Pengarang");
+            model.addColumn("Jumlah Halaman");
+            model.addColumn("Jumlah Stok");
+
+            while (resultSet.next()) {
+                model.addRow(new Object[]{
+                        resultSet.getInt("id"),
+                        resultSet.getString("judul"),
+                        resultSet.getDouble("harga_pinjam"),
+                        resultSet.getString("pengarang"),
+                        resultSet.getInt("jumlah_halaman"),
+                        resultSet.getInt("jumlah_stok")
+                });
+            }
+
+            // Close the resources
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
+            return model;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null; // or handle the exception according to your requirements
+        }
+    }
+
+    private static class TidakBisaDiEdit extends DefaultTableModel {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -264,6 +422,9 @@ public class DashboardPage extends javax.swing.JFrame {
     private javax.swing.JPanel PanelDashboard;
     private javax.swing.JPanel PanelNav;
     private javax.swing.JPanel PanelSide;
+    private javax.swing.JTable TabelListBuku;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparatorListPinjamU;
     private javax.swing.JSeparator jSeparatorProfile;
     // End of variables declaration//GEN-END:variables
