@@ -9,17 +9,15 @@ public class MemberClass {
     private String id;
     private String nama;
     private String email;
-    private String tanggalLahir;
     private String jenisKelamin;
     private String alamat;
     private String telepon;
     private String createdAt;
 
-    public MemberClass(String id, String nama, String email, String tanggalLahir, String jenisKelamin, String alamat, String telepon, String createdAt){
+    public MemberClass(String id, String nama, String email, String jenisKelamin, String alamat, String telepon, String createdAt){
         this.id = id;
         this.nama = nama;
         this.email = email;
-        this.tanggalLahir = tanggalLahir;
         this.jenisKelamin = jenisKelamin;
         this.alamat = alamat;
         this.telepon = telepon;
@@ -39,9 +37,6 @@ public class MemberClass {
         return email;
     }
 
-    public String getTanggalLahir() {
-        return tanggalLahir;
-    }
 
     public String getJenisKelamin() {
         return jenisKelamin;
@@ -70,7 +65,6 @@ public class MemberClass {
                         resultSet.getString("id"),
                         resultSet.getString("nama"),
                         resultSet.getString("email"),
-                        resultSet.getString("tanggal_lahir"),
                         resultSet.getString("jenis_kelamin"),
                         resultSet.getString("alamat"),
                         resultSet.getString("telepon"),

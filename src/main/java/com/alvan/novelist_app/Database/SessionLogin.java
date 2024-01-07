@@ -9,8 +9,8 @@ package com.alvan.novelist_app.Database;
  * @author Nitro 5
  */
 public class SessionLogin {
-    private static String id_user = "1";
-    private  static Boolean status_login = true;
+    private static String id_user;
+    private  static Boolean status_login;
     
     public static String getUid(){
         return id_user;

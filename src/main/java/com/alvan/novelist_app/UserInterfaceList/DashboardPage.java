@@ -8,6 +8,7 @@ import com.alvan.novelist_app.Database.KoneksiDatabase;
 import com.alvan.novelist_app.Database.MemberClass;
 import com.alvan.novelist_app.Database.SessionLogin;
 import com.alvan.novelist_app.UserInterfaceList.Dialog.DetailBuku;
+import com.alvan.novelist_app.UserInterfaceList.Dialog.DetailMember;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,6 +16,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -81,6 +83,11 @@ public class DashboardPage extends javax.swing.JFrame {
         LblProfile.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         LblProfile.setForeground(new java.awt.Color(231, 146, 21));
         LblProfile.setText("Profile");
+        LblProfile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LblProfileMouseClicked(evt);
+            }
+        });
 
         LblListPinjamanmu.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         LblListPinjamanmu.setForeground(new java.awt.Color(231, 146, 21));
@@ -269,6 +276,23 @@ public class DashboardPage extends javax.swing.JFrame {
             showBookDetailsDialog(id);
         }
     }//GEN-LAST:event_TabelListBukuMouseClicked
+
+    private void LblProfileMouseClicked(MouseEvent evt) {//GEN-FIRST:event_LblProfileMouseClicked
+
+        DetailMember detailMember = new DetailMember();
+        detailMember.txtNamaProfile.setText(member.getNama());
+        detailMember.txtEmailProfile.setText(member.getEmail());
+        detailMember.txtAlamatProfile.setText(member.getAlamat());
+        detailMember.txtNoTeleponProfile.setText(member.getTelepon());
+        detailMember.ComboBxJenisKelaminProfile.setSelectedItem(member.getJenisKelamin());
+
+
+
+        detailMember.setVisible(true);
+        detailMember.setLocationRelativeTo(null);
+
+
+    }//GEN-LAST:event_LblProfileMouseClicked
 
     private void showBookDetailsDialog(int bookId) {
         try {

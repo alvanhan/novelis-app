@@ -19,6 +19,7 @@ public class DetailBuku extends javax.swing.JFrame {
     public DetailBuku() {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.setTitle("Detail Buku");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
     }
