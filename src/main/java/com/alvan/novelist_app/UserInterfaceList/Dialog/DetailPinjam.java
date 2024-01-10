@@ -269,8 +269,8 @@ public class DetailPinjam extends javax.swing.JDialog {
 
             Date currentDate = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-          String tanggalKembali = "2024-01-24";
-//            String tanggalKembali = dateFormat.format(currentDate);
+//            String tanggalKembali = "2024-01-24";
+            String tanggalKembali = dateFormat.format(currentDate);
 
             String queryTanggalPinjam = "SELECT * FROM pinjaman WHERE id = ?";
             PreparedStatement PinjamData = connection.prepareStatement(queryTanggalPinjam);
