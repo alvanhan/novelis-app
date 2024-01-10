@@ -23,7 +23,7 @@ public class KoneksiDatabase {
         try {
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Koneksi ke database gagal!!", "Message Box", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Koneksi ke database gagal!!", "Message Box", JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }
