@@ -9,11 +9,11 @@ import com.alvan.novelist_app.Database.MemberClass;
 import com.alvan.novelist_app.Database.SessionLogin;
 import com.alvan.novelist_app.UserInterfaceList.Dialog.DetailBuku;
 import com.alvan.novelist_app.UserInterfaceList.Dialog.DetailMember;
+import com.alvan.novelist_app.UserInterfaceList.Dialog.PinjamBukuForm;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.Dimension;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -21,6 +21,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.concurrent.ExecutionException;
 import javax.imageio.ImageIO;
 
 /**
@@ -42,6 +43,8 @@ public class DashboardPage extends javax.swing.JFrame {
         setSize(new Dimension(1400, 800));
         setLocationRelativeTo(null);
         LblNamaUser.setText(member.getNama().toUpperCase());
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setTitle("Novelist App");
     }
 
     /**
@@ -273,24 +276,29 @@ public class DashboardPage extends javax.swing.JFrame {
         if (selectedRow != -1) {
             int id = (int) TabelListBuku.getValueAt(selectedRow, 0);
             System.out.println("ID: " + id);
+            PinjamBukuForm.setBukuPinjam(id);
             showBookDetailsDialog(id);
         }
     }//GEN-LAST:event_TabelListBukuMouseClicked
 
     private void LblProfileMouseClicked(MouseEvent evt) {//GEN-FIRST:event_LblProfileMouseClicked
-
-        DetailMember detailMember = new DetailMember();
-        detailMember.txtNamaProfile.setText(member.getNama());
-        detailMember.txtEmailProfile.setText(member.getEmail());
-        detailMember.txtAlamatProfile.setText(member.getAlamat());
-        detailMember.txtNoTeleponProfile.setText(member.getTelepon());
-        detailMember.ComboBxJenisKelaminProfile.setSelectedItem(member.getJenisKelamin());
-
-
-
-        detailMember.setVisible(true);
-        detailMember.setLocationRelativeTo(null);
-
+        try {
+            MemberClass detailData = MemberClass.getMeberDetail(SessionLogin.getUid());
+            if (detailData != null) {
+                DetailMember detailMember = new DetailMember();
+                detailMember.txtNamaProfile.setText(detailData.getNama());
+                detailMember.txtEmailProfile.setText(detailData.getEmail());
+                detailMember.txtAlamatProfile.setText(detailData.getAlamat());
+                detailMember.txtNoTeleponProfile.setText(detailData.getTelepon());
+                detailMember.ComboBxJenisKelaminProfile.setSelectedItem(detailData.getJenisKelamin());
+                detailMember.setVisible(true);
+                detailMember.setLocationRelativeTo(null);
+            } else {
+                System.out.println("Member data is null");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }//GEN-LAST:event_LblProfileMouseClicked
 
@@ -321,16 +329,31 @@ public class DashboardPage extends javax.swing.JFrame {
                 detailBuku.txtTahunTerbit.setText(TahunTerbit);
                 detailBuku.textareaSinopsis.setText(Sinopsis);
 
-                URL url = new URL(Gambar);
-                Image originalImage = ImageIO.read(url);
-                int width = 230;
-                int height = 380;
-                Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-                ImageIcon icon = new ImageIcon(scaledImage);
-                detailBuku.GambarBuku.setIcon(icon);
+                SwingWorker<ImageIcon, Void> worker = new SwingWorker<ImageIcon, Void>() {
+                    @Override
+                    protected ImageIcon doInBackground() throws Exception {
+                        URL url = new URL(Gambar);
+                        Image originalImage = ImageIO.read(url);
+                        int width = 230;
+                        int height = 380;
+                        Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                        return new ImageIcon(scaledImage);
+                    }
 
-                detailBuku.setVisible(true);
-                detailBuku.setLocationRelativeTo(null);
+                    @Override
+                    protected void done() {
+                        try {
+                            ImageIcon icon = get();
+                            detailBuku.GambarBuku.setIcon(icon);
+                            detailBuku.setVisible(true);
+                            detailBuku.setLocationRelativeTo(null);
+
+                        } catch (InterruptedException | ExecutionException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                worker.execute();
 
                 detailBuku.BtnTutupDetail.addActionListener(new ActionListener() {
                     @Override
@@ -338,9 +361,18 @@ public class DashboardPage extends javax.swing.JFrame {
                         detailBuku.dispose();
                     }
                 });
+
+                detailBuku.BtnPinjamBuku.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        PinjamBukuForm pinjamBukuForm = new PinjamBukuForm();
+                        detailBuku.dispose();
+                        pinjamBukuForm.setVisible(true);
+                        pinjamBukuForm.setLocationRelativeTo(null);
+                    }
+                });
             }
 
-            // Close the resources
             resultSet.close();
             preparedStatement.close();
             connection.close();
@@ -350,10 +382,10 @@ public class DashboardPage extends javax.swing.JFrame {
     }
 
 
-    private DefaultTableModel DataListBukuTable() {
+    public static DefaultTableModel DataListBukuTable() {
         try {
             Connection connection = KoneksiDatabase.getConnection();
-            String query = "SELECT * FROM buku";
+            String query = "SELECT * FROM buku WHERE jumlah_stok > 0";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -376,7 +408,6 @@ public class DashboardPage extends javax.swing.JFrame {
                 });
             }
 
-            // Close the resources
             resultSet.close();
             preparedStatement.close();
             connection.close();
@@ -385,7 +416,7 @@ public class DashboardPage extends javax.swing.JFrame {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return null; // or handle the exception according to your requirements
+            return null;
         }
     }
 
@@ -446,7 +477,7 @@ public class DashboardPage extends javax.swing.JFrame {
     private javax.swing.JPanel PanelDashboard;
     private javax.swing.JPanel PanelNav;
     private javax.swing.JPanel PanelSide;
-    private javax.swing.JTable TabelListBuku;
+    public static javax.swing.JTable TabelListBuku;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparatorListPinjamU;

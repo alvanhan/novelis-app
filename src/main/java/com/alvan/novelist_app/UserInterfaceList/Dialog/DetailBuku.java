@@ -4,8 +4,11 @@
  */
 package com.alvan.novelist_app.UserInterfaceList.Dialog;
 
+import com.alvan.novelist_app.Database.SessionLogin;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Date;
 
 /**
  *
@@ -172,11 +175,6 @@ public class DetailBuku extends javax.swing.JFrame {
         txtHargaPinjam.setEditable(false);
         txtHargaPinjam.setBackground(new java.awt.Color(255, 255, 255));
         txtHargaPinjam.setBorder(null);
-        txtHargaPinjam.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtHargaPinjamActionPerformed(evt);
-            }
-        });
         PanelMainDetailBuku.add(txtHargaPinjam);
         txtHargaPinjam.setBounds(500, 270, 320, 16);
 
@@ -209,10 +207,6 @@ public class DetailBuku extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtHargaPinjamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHargaPinjamActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtHargaPinjamActionPerformed
 
     /**
      * @param args the command line arguments
@@ -250,7 +244,7 @@ public class DetailBuku extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnPinjamBuku;
+    public javax.swing.JButton BtnPinjamBuku;
     public javax.swing.JButton BtnTutupDetail;
     public javax.swing.JLabel GambarBuku;
     private javax.swing.JPanel PanelMainDetailBuku;

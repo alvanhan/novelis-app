@@ -235,8 +235,8 @@ public class LoginForm extends javax.swing.JFrame {
         } else {
             try {
                 // Check if the user with the given email exists
-                String checkUserSql = "SELECT * FROM member WHERE email = ?";
-                try (PreparedStatement checkMemberStatement = connection.prepareStatement(checkUserSql)) {
+                String checkMemberSql = "SELECT * FROM member WHERE email = ?";
+                try (PreparedStatement checkMemberStatement = connection.prepareStatement(checkMemberSql)) {
                     checkMemberStatement.setString(1, email);
 
                     try (ResultSet userResultSet = checkMemberStatement.executeQuery()) {
@@ -288,8 +288,8 @@ public class LoginForm extends javax.swing.JFrame {
         } else {
             try {
                 // Check if the user with the given email exists
-                String checkUserSql = "SELECT * FROM member WHERE email = ?";
-                try (PreparedStatement checkMemberStatement = connection.prepareStatement(checkUserSql)) {
+                String checkMemberSql = "SELECT * FROM member WHERE email = ?";
+                try (PreparedStatement checkMemberStatement = connection.prepareStatement(checkMemberSql)) {
                     checkMemberStatement.setString(1, email);
 
                     try (ResultSet userResultSet = checkMemberStatement.executeQuery()) {

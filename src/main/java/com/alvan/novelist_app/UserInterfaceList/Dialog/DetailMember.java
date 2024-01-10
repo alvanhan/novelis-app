@@ -4,6 +4,12 @@
  */
 package com.alvan.novelist_app.UserInterfaceList.Dialog;
 
+import com.alvan.novelist_app.Database.KoneksiDatabase;
+import com.alvan.novelist_app.Database.PasswordHash;
+import com.alvan.novelist_app.Database.SessionLogin;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.*;
@@ -42,7 +48,6 @@ public class DetailMember extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtEmailProfile = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtPasswordProfile = new javax.swing.JTextField();
         ComboBxJenisKelaminProfile = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -50,6 +55,7 @@ public class DetailMember extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         txtNoTeleponProfile = new javax.swing.JTextField();
         BtnProfilSave = new javax.swing.JButton();
+        txtPasswordProfile = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -79,8 +85,6 @@ public class DetailMember extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(102, 102, 102));
         jLabel4.setText("Password");
-
-        txtPasswordProfile.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         ComboBxJenisKelaminProfile.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         ComboBxJenisKelaminProfile.setForeground(new java.awt.Color(102, 102, 102));
@@ -120,7 +124,6 @@ public class DetailMember extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(txtNamaProfile, javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(txtEmailProfile)
-            .addComponent(txtPasswordProfile)
             .addComponent(ComboBxJenisKelaminProfile, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(txtAlamatProfile)
             .addComponent(txtNoTeleponProfile)
@@ -137,6 +140,7 @@ public class DetailMember extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(jLabel8))
                 .addContainerGap(246, Short.MAX_VALUE))
+            .addComponent(txtPasswordProfile)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,7 +157,7 @@ public class DetailMember extends javax.swing.JFrame {
                 .addComponent(txtEmailProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPasswordProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
@@ -169,7 +173,7 @@ public class DetailMember extends javax.swing.JFrame {
                 .addComponent(txtNoTeleponProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(BtnProfilSave, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         PanelMainDetMember.add(jPanel1);
@@ -194,7 +198,47 @@ public class DetailMember extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnProfilSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnProfilSaveMouseClicked
-        // TODO add your handling code here:
+        Connection connection = KoneksiDatabase.getConnection();
+        try {
+            String password = txtPasswordProfile.getText();
+            boolean isPasswordEmpty = password.isEmpty();
+
+            if (!txtNoTeleponProfile.getText().matches("\\d+")) {
+                JOptionPane.showMessageDialog(null, "Nomor Telepon harus berupa angka");
+                txtNoTeleponProfile.setText("");
+                return;
+            }
+
+            if (!isPasswordEmpty) {
+                PasswordHash passwordHash = new PasswordHash();
+                password = passwordHash.hashPassword(password);
+            }
+
+            String sql = "UPDATE member SET nama = ?, email = ?";
+            if (!isPasswordEmpty) {
+                sql += ", password = ?";
+            }
+            sql += ", jenis_kelamin = ?, alamat = ?, telepon = ? WHERE id = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, txtNamaProfile.getText());
+            preparedStatement.setString(2, txtEmailProfile.getText());
+
+            if (!isPasswordEmpty) {
+                preparedStatement.setString(3, password);
+            }
+
+            preparedStatement.setString(isPasswordEmpty ? 3 : 4, ComboBxJenisKelaminProfile.getSelectedItem().toString());
+            preparedStatement.setString(isPasswordEmpty ? 4 : 5, txtAlamatProfile.getText());
+            preparedStatement.setString(isPasswordEmpty ? 5 : 6, txtNoTeleponProfile.getText());
+            preparedStatement.setString(isPasswordEmpty ? 6 : 7, SessionLogin.getUid());
+            preparedStatement.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Data Berhasil Diubah");
+            this.dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Data Gagal Diubah");
+        }
     }//GEN-LAST:event_BtnProfilSaveMouseClicked
 
     /**
@@ -248,6 +292,6 @@ public class DetailMember extends javax.swing.JFrame {
     public javax.swing.JTextField txtEmailProfile;
     public javax.swing.JTextField txtNamaProfile;
     public javax.swing.JTextField txtNoTeleponProfile;
-    public javax.swing.JTextField txtPasswordProfile;
+    public javax.swing.JPasswordField txtPasswordProfile;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,9 +4,16 @@
  */
 package com.alvan.novelist_app.UserInterfaceList;
 
+import com.alvan.novelist_app.Database.KoneksiDatabase;
 import com.alvan.novelist_app.Database.MemberClass;
 import com.alvan.novelist_app.Database.SessionLogin;
+import com.alvan.novelist_app.UserInterfaceList.Dialog.DetailPinjam;
+
+import javax.swing.table.DefaultTableModel;
 import java.awt.Dimension;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  *
@@ -14,7 +21,7 @@ import java.awt.Dimension;
  */
 public class ListPeminjamanPage extends javax.swing.JFrame {
     
-    String MemberId = SessionLogin.getUid();
+    static String MemberId = SessionLogin.getUid();
     Boolean LoginStatus = SessionLogin.getStatusLogin();
     MemberClass member = MemberClass.getMeberDetail(MemberId);
     
@@ -40,8 +47,6 @@ public class ListPeminjamanPage extends javax.swing.JFrame {
         PanelPeminjaman = new javax.swing.JPanel();
         PanelSide = new javax.swing.JPanel();
         LabelLogo = new javax.swing.JLabel();
-        LabelProfile = new javax.swing.JLabel();
-        jSeparatorProfile = new javax.swing.JSeparator();
         LabelListPinjam = new javax.swing.JLabel();
         jSeparatorListPinjam = new javax.swing.JSeparator();
         BtnLogoutSide = new javax.swing.JButton();
@@ -51,8 +56,8 @@ public class ListPeminjamanPage extends javax.swing.JFrame {
         LblNamaUser = new javax.swing.JLabel();
         PanelPeminMain = new javax.swing.JPanel();
         LabelListPinjamMain = new javax.swing.JLabel();
-        PanelTabel = new javax.swing.JScrollPane();
-        TabelPinjam = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablePinjamanMember = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -70,17 +75,6 @@ public class ListPeminjamanPage extends javax.swing.JFrame {
         LabelLogo.getAccessibleContext().setAccessibleName("LabelLogo");
         LabelLogo.getAccessibleContext().setAccessibleDescription("");
 
-        LabelProfile.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        LabelProfile.setForeground(new java.awt.Color(231, 146, 21));
-        LabelProfile.setText("Profile");
-        LabelProfile.setPreferredSize(new java.awt.Dimension(50, 22));
-        PanelSide.add(LabelProfile);
-        LabelProfile.setBounds(45, 146, 170, 22);
-        LabelProfile.getAccessibleContext().setAccessibleName("LabelProfil");
-
-        PanelSide.add(jSeparatorProfile);
-        jSeparatorProfile.setBounds(45, 174, 170, 10);
-
         LabelListPinjam.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         LabelListPinjam.setForeground(new java.awt.Color(231, 146, 21));
         LabelListPinjam.setText("List Pinjaman");
@@ -88,11 +82,11 @@ public class ListPeminjamanPage extends javax.swing.JFrame {
         LabelListPinjam.setMinimumSize(new java.awt.Dimension(102, 22));
         LabelListPinjam.setPreferredSize(new java.awt.Dimension(102, 22));
         PanelSide.add(LabelListPinjam);
-        LabelListPinjam.setBounds(45, 202, 110, 22);
+        LabelListPinjam.setBounds(50, 150, 110, 22);
 
         jSeparatorListPinjam.setMinimumSize(new java.awt.Dimension(170, 10));
         PanelSide.add(jSeparatorListPinjam);
-        jSeparatorListPinjam.setBounds(45, 236, 170, 10);
+        jSeparatorListPinjam.setBounds(50, 180, 170, 10);
         jSeparatorListPinjam.getAccessibleContext().setAccessibleName("");
 
         BtnLogoutSide.setBackground(new java.awt.Color(231, 146, 21));
@@ -155,20 +149,19 @@ public class ListPeminjamanPage extends javax.swing.JFrame {
         LabelListPinjamMain.setForeground(new java.awt.Color(231, 146, 21));
         LabelListPinjamMain.setText("List Pinjaman");
 
-        PanelTabel.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        TabelPinjam.setAutoCreateRowSorter(true);
-        TabelPinjam.setForeground(new java.awt.Color(231, 146, 21));
-        TabelPinjam.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
+        TablePinjamanMember.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        TablePinjamanMember.setModel(DataListPeminjamanMember());
+        TablePinjamanMember.setGridColor(new java.awt.Color(231, 146, 21));
+        TablePinjamanMember.setRowHeight(50);
+        TablePinjamanMember.setSelectionBackground(new java.awt.Color(231, 146, 21));
+        TablePinjamanMember.setUpdateSelectionOnSort(false);
+        TablePinjamanMember.setVerifyInputWhenFocusTarget(false);
+        TablePinjamanMember.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablePinjamanMemberMouseClicked(evt);
             }
-        ));
-        TabelPinjam.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        PanelTabel.setViewportView(TabelPinjam);
+        });
+        jScrollPane1.setViewportView(TablePinjamanMember);
 
         javax.swing.GroupLayout PanelPeminMainLayout = new javax.swing.GroupLayout(PanelPeminMain);
         PanelPeminMain.setLayout(PanelPeminMainLayout);
@@ -177,9 +170,9 @@ public class ListPeminjamanPage extends javax.swing.JFrame {
             .addGroup(PanelPeminMainLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addGroup(PanelPeminMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PanelTabel, javax.swing.GroupLayout.PREFERRED_SIZE, 957, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LabelListPinjamMain))
-                .addContainerGap(66, Short.MAX_VALUE))
+                    .addComponent(LabelListPinjamMain)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 982, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         PanelPeminMainLayout.setVerticalGroup(
             PanelPeminMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,8 +180,8 @@ public class ListPeminjamanPage extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addComponent(LabelListPinjamMain)
                 .addGap(18, 18, 18)
-                .addComponent(PanelTabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(170, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(172, Short.MAX_VALUE))
         );
 
         PanelPeminjaman.add(PanelPeminMain);
@@ -232,6 +225,121 @@ public class ListPeminjamanPage extends javax.swing.JFrame {
         SessionLogin.setUid(null);
     }//GEN-LAST:event_BtnLogoutSideMouseClicked
 
+    private void TablePinjamanMemberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablePinjamanMemberMouseClicked
+        int selectedRow = TablePinjamanMember.getSelectedRow();
+        Connection connection = KoneksiDatabase.getConnection();
+
+        if (selectedRow != -1) {
+            Object idPinjamanObj = TablePinjamanMember.getValueAt(selectedRow, 0);
+
+            if (idPinjamanObj != null) {
+                int idPinjaman = Integer.parseInt(idPinjamanObj.toString());
+
+                try {
+                    DetailPinjam detailPinjam = new DetailPinjam(this, true);
+
+                    String query = "SELECT pinjaman.*, transaksi.*, buku.* " +
+                            "FROM pinjaman " +
+                            "JOIN transaksi ON pinjaman.id = transaksi.pinjaman_id " +
+                            "JOIN buku ON pinjaman.buku_id = buku.id " +
+                            "WHERE pinjaman.id = ?";
+
+                    PreparedStatement preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setInt(1, idPinjaman);
+                    ResultSet resultSet = preparedStatement.executeQuery();
+
+                    while (resultSet.next()) {
+                        detailPinjam.txtNotaDetailPinjam.setText(resultSet.getString("transaksi.nomor_nota"));
+                        detailPinjam.txtJudulBukuDetailPinjam.setText(resultSet.getString("buku.judul"));
+                        detailPinjam.txtHargaPinjamBukuDetailPinjam.setText("Rp. "+resultSet.getString("buku.harga_pinjam"));
+                        detailPinjam.txtTotalHargaPinjamDetailPinjam.setText("Rp. "+resultSet.getString("transaksi.total_bayar"));
+                        detailPinjam.txtLamaPinjamDetailPinjam.setText(resultSet.getString("pinjaman.lama_pinjam")+ " Minggu");
+                        detailPinjam.txtTanggalPinjamDetailPinjam.setText(resultSet.getString("pinjaman.tanggal_pinjam"));
+                        detailPinjam.txtKembaliSebelumDetailPinjam.setText(resultSet.getString("pinjaman.kembalikan_sebelum"));
+
+                        String tanggalKembali = resultSet.getString("pinjaman.tanggal_kembali");
+                        detailPinjam.txtTanggalKembaliDetailPinjam.setText(tanggalKembali != null ? tanggalKembali : "BELUM DI KEMBALIKAN");
+
+                        String TangalKembali = resultSet.getString("pinjaman.tanggal_kembali");
+
+                        if (TangalKembali != null) {
+                            detailPinjam.BtnKembalikanBuku.setVisible(false);
+                            detailPinjam.BtnHapusPinjamBuku.setVisible(true);
+                        } else {
+                            detailPinjam.BtnKembalikanBuku.setVisible(true);
+                            detailPinjam.BtnHapusPinjamBuku.setVisible(false);
+                        }
+
+                        detailPinjam.idPinjam = idPinjamanObj.toString();
+
+                    }
+
+
+
+                    resultSet.close();
+                    preparedStatement.close();
+
+                    detailPinjam.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }//GEN-LAST:event_TablePinjamanMemberMouseClicked
+
+
+    public static DefaultTableModel DataListPeminjamanMember() {
+        try {
+            Connection connection = KoneksiDatabase.getConnection();
+            String query = "SELECT pinjaman.id, pinjaman.buku_id, buku.judul, pinjaman.tanggal_pinjam, pinjaman.kembalikan_sebelum, pinjaman.tanggal_kembali, pinjaman.lama_pinjam " +
+                    "FROM pinjaman " +
+                    "JOIN buku ON pinjaman.buku_id = buku.id " +
+                    "WHERE pinjaman.member_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, MemberId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            DefaultTableModel model = new TidakBisaDiEdit();
+            model.addColumn("No.");
+            model.addColumn("Judul Buku");
+            model.addColumn("Tanggal Pinjam");
+            model.addColumn("Kembalikan Sebelum");
+            model.addColumn("Tanggal Kembali");
+            model.addColumn("Lama Pinjam");
+
+            while (resultSet.next()) {
+                Object[] rowData = {
+                        resultSet.getString("id"),
+                        resultSet.getString("judul"),
+                        resultSet.getString("tanggal_pinjam"),
+                        resultSet.getString("kembalikan_sebelum"),
+                        resultSet.getString("tanggal_kembali"),
+                        resultSet.getString("lama_pinjam"),
+                };
+                model.addRow(rowData);
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
+            return model;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
+    private static class TidakBisaDiEdit extends DefaultTableModel {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -273,16 +381,14 @@ public class ListPeminjamanPage extends javax.swing.JFrame {
     private javax.swing.JLabel LabelListPinjam;
     private javax.swing.JLabel LabelListPinjamMain;
     private javax.swing.JLabel LabelLogo;
-    private javax.swing.JLabel LabelProfile;
     private javax.swing.JLabel LabelSelamat;
     private javax.swing.JLabel LblNamaUser;
     private javax.swing.JPanel PanelNav;
     private javax.swing.JPanel PanelPeminMain;
     private javax.swing.JPanel PanelPeminjaman;
     private javax.swing.JPanel PanelSide;
-    private javax.swing.JScrollPane PanelTabel;
-    private javax.swing.JTable TabelPinjam;
+    public static javax.swing.JTable TablePinjamanMember;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparatorListPinjam;
-    private javax.swing.JSeparator jSeparatorProfile;
     // End of variables declaration//GEN-END:variables
 }
